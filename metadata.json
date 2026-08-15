@@ -1,0 +1,6 @@
+{
+  "name": "Cache Memory Story",
+  "description": "An interactive educational website about how cache memory works in computer architecture.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
