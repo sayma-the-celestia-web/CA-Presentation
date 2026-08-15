@@ -43,7 +43,7 @@ function DirectMapping() {
       <div className="w-full overflow-x-auto pb-4 hide-scrollbar">
         <div className="min-w-[500px] relative bg-white/50 border border-[#e2e2da] rounded-xl p-8 flex justify-between items-center h-[450px] shadow-sm">
          {/* Main Memory */}
-         <div className="flex flex-col gap-2 z-10">
+         <div className="flex flex-col gap-2 z-10 items-start">
            <Label text="MAIN MEMORY" className="!text-[#1a1a1a] border-2 border-[#1a1a1a] px-2 py-1 font-bold bg-white mb-2" />
            {Array.from({length: 8}).map((_, i) => (
              <button 
@@ -61,8 +61,8 @@ function DirectMapping() {
          <svg className="absolute inset-0 w-full h-full pointer-events-none z-0">
             {activeBlock !== null && (
               <motion.line 
-                x1="25%" y1={`${(activeBlock * 40) + 75}px`} 
-                x2="75%" y2={`${((activeBlock % 4) * 56) + 160}px`} 
+                x1="100px" y1={`${(activeBlock * 40) + 102}px`} 
+                x2="calc(100% - 130px)" y2={`${((activeBlock % 4) * 56) + 162}px`} 
                 stroke="#0984E3" strokeWidth="2" strokeDasharray="4 4"
                 initial={{ pathLength: 0 }}
                 animate={{ pathLength: 1 }}
@@ -72,7 +72,7 @@ function DirectMapping() {
          </svg>
 
          {/* Cache */}
-         <div className="flex flex-col gap-4 justify-center z-10 h-full">
+         <div className="flex flex-col gap-4 justify-center z-10 h-full items-end">
            <Label text="CACHE" className="!text-[#1a1a1a] border-2 border-[#1a1a1a] px-2 py-1 font-bold bg-white" />
            {Array.from({length: 4}).map((_, i) => (
              <div 
@@ -99,7 +99,7 @@ function AssociativeMapping() {
           onMouseEnter={() => setActive(true)}
           onMouseLeave={() => setActive(false)}
         >
-         <div className="z-10">
+         <div className="z-10 flex flex-col items-start">
            <Label text="MEMORY BLOCK" className="!text-[#1a1a1a] border-2 border-[#1a1a1a] px-2 py-1 font-bold bg-white mb-2" />
            <div className={`w-16 h-16 border-2 flex items-center justify-center font-mono font-bold transition-colors shadow-[2px_2px_0px_0px_#000] ${active ? 'bg-[#0984E3] text-white border-[#0984E3]' : 'bg-white border-black'}`}>
              B4
@@ -110,8 +110,8 @@ function AssociativeMapping() {
             {active && Array.from({length: 4}).map((_, i) => (
               <motion.line 
                 key={i}
-                x1="25%" y1="50%" 
-                x2="75%" y2={`${(i * 56) + 160}px`} 
+                x1="100px" y1="242px" 
+                x2="calc(100% - 130px)" y2={`${(i * 56) + 162}px`} 
                 stroke="#0984E3" strokeWidth="2" strokeDasharray="4 4"
                 initial={{ pathLength: 0 }}
                 animate={{ pathLength: 1 }}
@@ -120,7 +120,7 @@ function AssociativeMapping() {
             ))}
          </svg>
 
-         <div className="flex flex-col gap-4 justify-center z-10 h-full">
+         <div className="flex flex-col gap-4 justify-center z-10 h-full items-end">
            <Label text="CACHE" className="!text-[#1a1a1a] border-2 border-[#1a1a1a] px-2 py-1 font-bold bg-white" />
            {Array.from({length: 4}).map((_, i) => (
              <div 
@@ -163,7 +163,7 @@ function SetAssociativeMapping() {
           onMouseEnter={() => setActive(true)}
           onMouseLeave={() => setActive(false)}
         >
-         <div className="z-10">
+         <div className="z-10 flex flex-col items-start">
            <Label text="BLOCK" className="!text-[#1a1a1a] border-2 border-[#1a1a1a] px-2 py-1 font-bold bg-white mb-2" />
            <div className={`w-16 h-16 border-2 flex items-center justify-center font-mono font-bold transition-colors shadow-[2px_2px_0px_0px_#000] ${active ? 'bg-[#0984E3] text-white border-[#0984E3]' : 'bg-white border-black'}`}>
              B4
@@ -173,14 +173,14 @@ function SetAssociativeMapping() {
          <svg className="absolute inset-0 w-full h-full pointer-events-none">
             {active && (
               <>
-                <motion.line x1="25%" y1="50%" x2="65%" y2="35%" stroke="#0984E3" strokeWidth="2" strokeDasharray="4 4" initial={{pathLength:0}} animate={{pathLength:1}} />
-                <motion.line x1="25%" y1="50%" x2="65%" y2="45%" stroke="#0984E3" strokeWidth="2" strokeDasharray="4 4" initial={{pathLength:0}} animate={{pathLength:1}} />
+                <motion.line x1="100px" y1="242px" x2="calc(100% - 162px)" y2="141px" stroke="#0984E3" strokeWidth="2" strokeDasharray="4 4" initial={{pathLength:0}} animate={{pathLength:1}} />
+                <motion.line x1="100px" y1="242px" x2="calc(100% - 162px)" y2="181px" stroke="#0984E3" strokeWidth="2" strokeDasharray="4 4" initial={{pathLength:0}} animate={{pathLength:1}} />
               </>
             )}
          </svg>
 
-         <div className="flex flex-col gap-8 justify-center z-10 w-32">
-           <div className={`border-2 border-dashed p-3 transition-colors ${active ? 'border-[#0984E3] bg-[#0984E3]/5' : 'border-[#636E72] bg-white/50'}`}>
+         <div className="flex flex-col gap-8 justify-center z-10 w-32 items-end">
+           <div className={`border-2 border-dashed p-3 transition-colors w-full ${active ? 'border-[#0984E3] bg-[#0984E3]/5' : 'border-[#636E72] bg-white/50'}`}>
              <Label text="SET 0" className="text-center mb-3 !text-[#1a1a1a] border-2 border-[#1a1a1a] px-2 py-1 font-bold bg-white" />
              <div className="flex flex-col gap-2">
                <div className={`h-8 border-2 border-black flex items-center justify-center font-mono text-xs font-bold shadow-[2px_2px_0px_0px_#000] transition-colors ${active ? 'bg-[#55EFC4]' : 'bg-white'}`}>L0</div>
@@ -188,7 +188,7 @@ function SetAssociativeMapping() {
              </div>
            </div>
            
-           <div className="border-2 border-dashed border-[#636E72] p-3 opacity-50 bg-white/50">
+           <div className="border-2 border-dashed border-[#636E72] p-3 opacity-50 bg-white/50 w-full">
              <Label text="SET 1" className="text-center mb-3 !text-[#1a1a1a] border-2 border-[#1a1a1a] px-2 py-1 font-bold bg-white" />
              <div className="flex flex-col gap-2">
                <div className="h-8 border-2 border-black flex items-center justify-center font-mono text-xs font-bold bg-white shadow-[2px_2px_0px_0px_#000]">L2</div>
