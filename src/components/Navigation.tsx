@@ -7,8 +7,8 @@ const navItems = [
   { id: 'cache-levels', label: 'Levels' },
   { id: 'cache-operation', label: 'How It Works' },
   { id: 'mapping', label: 'Mapping' },
-  { id: 'quiz', label: 'Quiz' },
   { id: 'summary', label: 'Summary' },
+  { id: 'quiz', label: 'Quiz' },
 ];
 
 export function Navigation() {

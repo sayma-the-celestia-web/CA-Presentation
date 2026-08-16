@@ -21,8 +21,8 @@ export default function App() {
         <MultiLevelSection id="cache-levels" />
         <RequestSimulator id="cache-operation" />
         <MappingSection id="mapping" />
-        <QuizSection id="quiz" />
         <SummarySection id="summary" />
+        <QuizSection id="quiz" />
       </main>
     </div>
   )

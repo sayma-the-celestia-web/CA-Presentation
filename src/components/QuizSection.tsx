@@ -112,8 +112,8 @@ export function QuizSection({ id }: { id: string }) {
     return `${score} / 4 — Main Memory Mode 😂`;
   };
 
-  const scrollToSummary = () => {
-    document.getElementById('summary')?.scrollIntoView({ behavior: 'smooth' });
+  const scrollToTop = () => {
+    document.getElementById('hero')?.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
@@ -255,10 +255,10 @@ export function QuizSection({ id }: { id: string }) {
                   Try Again
                 </button>
                 <button 
-                  onClick={scrollToSummary}
+                  onClick={scrollToTop}
                   className="bg-[#0984E3] text-white px-6 py-3 font-mono text-xs tracking-widest uppercase hover:bg-[#0984E3]/90 transition-colors"
                 >
-                  Review the Concepts ↓
+                  Back to Overview ↑
                 </button>
               </div>
             </motion.div>
