@@ -29,7 +29,7 @@ function DirectMapping() {
   return (
     <div className="py-16 border-t border-[#e2e2da] grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
       <div>
-        <h3 className="font-serif text-3xl italic mb-4 bg-[#f8efef] inline-block pr-2">Direct Mapping</h3>
+        <h3 className="font-serif text-3xl italic mb-4 bg-[#ffffff] inline-block px-2">Direct Mapping</h3>
         <p className="font-sans text-lg text-[#333333] mb-8">
           One memory block maps to exactly one specific cache line. It's fixed, rigid, and simple to implement in hardware.
         </p>
@@ -209,7 +209,7 @@ function ComparisonSpectrum() {
         <h3 className="font-serif text-3xl italic mb-4">Three Rules. One Problem.</h3>
       </div>
 
-      <div className="relative max-w-4xl mx-auto hidden md:flex items-center justify-between">
+      <div className="relative max-w-4xl mx-auto hidden md:flex items-center justify-between mb-16">
          <div className="absolute left-10 right-10 h-0.5 bg-[#e2e2da] z-0" />
          
          <div className="flex flex-col items-center gap-4 z-10 bg-[#F9F8F3] px-6">
@@ -228,11 +228,136 @@ function ComparisonSpectrum() {
          </div>
       </div>
       
-      {/* Mobile view */}
-      <div className="md:hidden flex flex-col gap-8 items-center">
+      {/* Mobile view top spectrum */}
+      <div className="md:hidden flex flex-col gap-8 items-center mb-16">
          <Chip title="DIRECT" subtitle="FIXED" className="w-full max-w-xs py-2 shadow-none border-[#e2e2da]" />
          <Chip title="SET-ASSOCIATIVE" subtitle="BALANCED" className="w-full max-w-xs py-2 border-[#0984E3] shadow-[4px_4px_0px_0px_#0984E3]" />
          <Chip title="ASSOCIATIVE" subtitle="FLEXIBLE" className="w-full max-w-xs py-2 shadow-none border-[#e2e2da]" />
+      </div>
+
+      {/* Expanded Comparison */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+        <ComparisonColumn
+          title="DIRECT MAPPING"
+          subtitle="Fixed & Simple"
+          flexibilityLevel={1}
+          type="direct"
+          attributes={[
+            { label: "Placement", value: "One specific cache line" },
+            { label: "Flexibility", value: "Low" },
+            { label: "Hardware Complexity", value: "Low" },
+            { label: "Lookup", value: "Simple" },
+            { label: "Conflict Chance", value: "Higher" },
+            { label: "Cost", value: "Lower" }
+          ]}
+        />
+        <ComparisonColumn
+          title="SET-ASSOCIATIVE"
+          subtitle="Balanced"
+          flexibilityLevel={2}
+          type="set-associative"
+          attributes={[
+            { label: "Placement", value: "Within a specific set" },
+            { label: "Flexibility", value: "Medium" },
+            { label: "Hardware Complexity", value: "Medium" },
+            { label: "Lookup", value: "Within the selected set" },
+            { label: "Conflict Chance", value: "Lower than Direct" },
+            { label: "Cost", value: "Moderate" }
+          ]}
+        />
+        <ComparisonColumn
+          title="ASSOCIATIVE MAPPING"
+          subtitle="Flexible"
+          flexibilityLevel={3}
+          type="associative"
+          attributes={[
+            { label: "Placement", value: "Any cache line" },
+            { label: "Flexibility", value: "High" },
+            { label: "Hardware Complexity", value: "High" },
+            { label: "Lookup", value: "Multiple/all tags" },
+            { label: "Conflict Chance", value: "Lowest" },
+            { label: "Cost", value: "Higher" }
+          ]}
+        />
+      </div>
+
+      <div className="mt-16 text-center max-w-2xl mx-auto px-6">
+        <p className="font-sans text-lg text-[#333333] italic border-t border-[#e2e2da] pt-8">
+          "There is no single best mapping technique — each represents a trade-off between placement flexibility, complexity, conflict behavior, and cost."
+        </p>
+      </div>
+    </div>
+  )
+}
+
+function ComparisonColumn({ title, subtitle, flexibilityLevel, type, attributes }: any) {
+  const [active, setActive] = useState(false);
+
+  return (
+    <div 
+      className="bg-[#ffffff] border border-[#e2e2da] rounded-xl p-6 md:p-8 flex flex-col group hover:border-black transition-colors"
+      onMouseEnter={() => setActive(true)}
+      onMouseLeave={() => setActive(false)}
+    >
+      <div className="mb-6 flex flex-col gap-2">
+        <div className="flex justify-between items-center">
+          <h4 className="font-mono text-[11px] font-bold tracking-widest text-[#1a1a1a]">{title}</h4>
+          <div className="flex gap-1">
+            {Array.from({length: 3}).map((_, i) => (
+              <div key={i} className={`w-2 h-2 rounded-full border border-black ${i < flexibilityLevel ? 'bg-black' : 'bg-transparent'}`} />
+            ))}
+          </div>
+        </div>
+        <p className="font-serif text-lg italic text-[#636E72]">{subtitle}</p>
+      </div>
+
+      {/* Visual Diagram */}
+      <div className={`h-40 flex flex-col items-center justify-center border border-[#e2e2da] rounded-lg mb-8 bg-[#F9F8F3] transition-colors ${active ? 'bg-white' : ''}`}>
+        {type === 'direct' && (
+          <div className="flex flex-col items-center gap-2">
+            <div className={`font-mono text-xs font-bold border-2 px-2 py-1 transition-colors ${active ? 'bg-[#0984E3] text-white border-[#0984E3]' : 'bg-white border-black shadow-[2px_2px_0px_0px_#000]'}`}>BLOCK</div>
+            <div className={`transition-colors ${active ? 'text-[#0984E3]' : 'text-[#636E72]'}`}>↓</div>
+            <div className={`font-mono text-xs font-bold border-2 px-2 py-1 transition-colors ${active ? 'bg-[#55EFC4] border-black shadow-[2px_2px_0px_0px_#000]' : 'bg-white border-[#e2e2da]'}`}>L0</div>
+          </div>
+        )}
+        {type === 'set-associative' && (
+          <div className="flex flex-col items-center gap-2">
+            <div className={`font-mono text-xs font-bold border-2 px-2 py-1 transition-colors ${active ? 'bg-[#0984E3] text-white border-[#0984E3]' : 'bg-white border-black shadow-[2px_2px_0px_0px_#000]'}`}>BLOCK</div>
+            <div className={`transition-colors ${active ? 'text-[#0984E3]' : 'text-[#636E72]'}`}>↓</div>
+            <div className={`font-mono text-[10px] font-bold border-2 border-dashed px-4 py-0.5 transition-colors ${active ? 'border-[#0984E3] bg-[#0984E3]/5 text-[#0984E3]' : 'border-[#e2e2da] text-[#636E72]'}`}>SET 1</div>
+            <div className={`transition-colors ${active ? 'text-[#0984E3]' : 'text-[#636E72]'}`}>↓</div>
+            <div className="flex gap-2">
+              <div className={`font-mono text-xs font-bold border-2 px-2 py-1 transition-colors ${active ? 'bg-[#55EFC4] border-black shadow-[2px_2px_0px_0px_#000]' : 'bg-white border-[#e2e2da]'}`}>L0</div>
+              <div className={`font-mono text-xs font-bold border-2 px-2 py-1 transition-colors ${active ? 'bg-[#55EFC4] border-black shadow-[2px_2px_0px_0px_#000]' : 'bg-white border-[#e2e2da]'}`}>L1</div>
+            </div>
+          </div>
+        )}
+        {type === 'associative' && (
+          <div className="flex flex-col items-center gap-2">
+            <div className={`font-mono text-xs font-bold border-2 px-2 py-1 transition-colors ${active ? 'bg-[#0984E3] text-white border-[#0984E3]' : 'bg-white border-black shadow-[2px_2px_0px_0px_#000]'}`}>BLOCK</div>
+            <div className={`flex gap-3 text-[10px] transition-colors ${active ? 'text-[#0984E3]' : 'text-[#636E72]'}`}>
+               <span>↙</span>
+               <span>↓</span>
+               <span>↘</span>
+            </div>
+            <div className="flex gap-1">
+              <div className={`font-mono text-[9px] font-bold border-2 px-1 py-1 transition-colors ${active ? 'bg-[#55EFC4] border-black shadow-[2px_2px_0px_0px_#000]' : 'bg-white border-[#e2e2da]'}`}>L0</div>
+              <div className={`font-mono text-[9px] font-bold border-2 px-1 py-1 transition-colors ${active ? 'bg-[#55EFC4] border-black shadow-[2px_2px_0px_0px_#000]' : 'bg-white border-[#e2e2da]'}`}>L1</div>
+              <div className={`font-mono text-[9px] font-bold border-2 px-1 py-1 transition-colors ${active ? 'bg-[#55EFC4] border-black shadow-[2px_2px_0px_0px_#000]' : 'bg-white border-[#e2e2da]'}`}>L2</div>
+              <div className={`font-mono text-[9px] font-bold border-2 px-1 py-1 transition-colors ${active ? 'bg-[#55EFC4] border-black shadow-[2px_2px_0px_0px_#000]' : 'bg-white border-[#e2e2da]'}`}>L3</div>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Attributes */}
+      <div className="flex flex-col gap-3 flex-1">
+        {attributes.map((attr: any, idx: number) => (
+          <div key={idx} className="flex flex-col border-b border-[#e2e2da]/50 pb-2 last:border-0 last:pb-0">
+            <span className="font-mono text-[9px] font-bold text-[#636E72] uppercase tracking-wider mb-1">{attr.label}</span>
+            <span className="font-sans text-[13px] text-[#1a1a1a]">{attr.value}</span>
+          </div>
+        ))}
       </div>
     </div>
   )
